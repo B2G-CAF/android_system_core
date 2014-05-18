@@ -31,9 +31,6 @@ sysclktz 0
 
 loglevel 3
 
-# Redirect rilpoxy to rild
-    symlink /dev/socket/rild /dev/socket/rilproxy
-
 # Backward compatibility
     symlink /system/etc /etc
     symlink /sys/kernel/debug /d
@@ -587,3 +584,16 @@ service gonksched /system/bin/gonksched
 service b2g /system/bin/b2g.sh
     class main
     onrestart restart media
+
+service rilproxy /system/bin/rilproxy
+    class main
+    socket rilproxy stream 660 root system
+    user root
+    group radio
+
+service rilproxy1 /system/bin/rilproxy -c 1
+    class main
+    socket rilproxy1 stream 660 root system
+    user root
+    disabled
+    group radio
